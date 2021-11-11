@@ -22,12 +22,48 @@ async function run() {
         const database = client.db('carZone');
         const carsCollection = database.collection('cars');
         const usersCollection = database.collection('users');
+        const orderCollection = database.collection('order');
 
         // app.post('/appointments', async (req, res) => {
         //     const appointment = req.body;
         //     const result = await appointmentsCollection.insertOne(appointment);
         //     res.json(result)
         // });
+        // product
+        // GET product
+        app.get('/product', async (req, res) => {
+            const cursor = carsCollection.find({});
+            const product = await cursor.toArray();
+            res.send(product);
+        });
+
+        // get single product
+        app.get('/place-order/:id', async (req, res) => {
+            const id = req.params.id;
+            console.log("Getting single data : ", id);
+            const query = { _id: ObjectId(id) };
+            const product = await carsCollection.findOne(query);
+            res.json(product);
+        });
+
+        // add product
+        app.post('/product', async (req, res) => {
+            const product = req.body;
+            console.log("Hit the post api", product);
+
+            const result = await carsCollection.insertOne(product);
+            console.log(result);
+            res.json(result);
+        });
+
+        // order
+        app.post('/place-order', async (req, res) => {
+            const order = req.body;
+            const result = await orderCollection.insertOne(order);
+            res.json(result)
+        });
+
+        // user 
 
         app.get('/users/:email', async (req, res) => {
             const email = req.params.email;
