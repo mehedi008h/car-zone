@@ -57,6 +57,14 @@ async function run() {
             res.json(result);
         });
 
+        // delete product
+        app.delete('/manageProduct/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await carsCollection.deleteOne(query);
+            res.json(result);
+        });
+
         // order
         // get order
         app.get('/manageOrder', async (req, res) => {
@@ -87,6 +95,13 @@ async function run() {
             const review = req.body;
             const result = await reviewCollection.insertOne(review);
             res.json(result)
+        });
+
+        // get review
+        app.get('/review', async (req, res) => {
+            const cursor = reviewCollection.find({});
+            const review = await cursor.toArray();
+            res.send(review);
         });
 
         // user 
