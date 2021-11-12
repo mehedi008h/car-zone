@@ -23,6 +23,7 @@ async function run() {
         const carsCollection = database.collection('cars');
         const usersCollection = database.collection('users');
         const orderCollection = database.collection('order');
+        const reviewCollection = database.collection('review');
 
         // app.post('/appointments', async (req, res) => {
         //     const appointment = req.body;
@@ -57,9 +58,34 @@ async function run() {
         });
 
         // order
+        // get order
+        app.get('/manageOrder', async (req, res) => {
+            const cursor = orderCollection.find({});
+            const order = await cursor.toArray();
+            res.send(order);
+        });
+
+        // make order
         app.post('/place-order', async (req, res) => {
             const order = req.body;
             const result = await orderCollection.insertOne(order);
+            res.json(result)
+        });
+
+        // delete order
+        // delete order
+        app.delete('/manageOrder/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await orderCollection.deleteOne(query);
+            res.json(result);
+        });
+
+        // review
+        // add review
+        app.post('/addReview', async (req, res) => {
+            const review = req.body;
+            const result = await reviewCollection.insertOne(review);
             res.json(result)
         });
 
