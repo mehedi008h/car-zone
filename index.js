@@ -25,11 +25,6 @@ async function run() {
         const orderCollection = database.collection('order');
         const reviewCollection = database.collection('review');
 
-        // app.post('/appointments', async (req, res) => {
-        //     const appointment = req.body;
-        //     const result = await appointmentsCollection.insertOne(appointment);
-        //     res.json(result)
-        // });
         // product
         // GET product
         app.get('/product', async (req, res) => {
